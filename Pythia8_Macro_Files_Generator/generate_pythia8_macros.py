@@ -18,7 +18,8 @@ import os
 name = "ff_gmZ"
 ### CM ENERGY RANGE
 eCM_ranges = [
-    (20, 240, 5), # start_eCM[0], end_eCM[0], step size
+    (20, 240, 5), # start_eCM[0], end_eCM[0], step size (could be float, max 1 decimal)
+    # add as many or as little as you like 
 
 ]
 #################################################################
