@@ -16,13 +16,10 @@ import os
 ##############################################################
 ### NAME OF THE DIRECTORY FILE TO BE GENERATED
 name = "ff_gmZ"
-### CM ENERGY RANGE (add as many or as little as you like)
+### CM ENERGY RANGE
 eCM_ranges = [
-    (20, 80, 5),
-    (80, 87, 1),
-    (87, 95, 0.3),
-    (95, 100, 1),
-    (100, 240, 5),
+    (20, 240, 5), # start_eCM[0], end_eCM[0], step size
+
 ]
 #################################################################
 ################ OPTIONS FOR GENERATING .cmnd FILES #############
