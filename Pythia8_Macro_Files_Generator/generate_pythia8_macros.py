@@ -1,15 +1,20 @@
 ##############################################################
+################ PYTHIA8 MACRO FILES GENERATOR ###############
+##############################################################
 ######### MACRO PYTHON FILE TO GENERATE .cmnd and .cc ########
 ########## Only for Pythia: analyses crossx data  ############
 ##############################################################
+##################### AUTHOR: Paul Trofin ####################
+##############################################################
+
 import os
                                                         
 ##############################################################
 ######################## OPTIONS #############################
 ##############################################################
-### NAME 
+### NAME OF THE DIRECTORY FILE TO BE GENERATED
 name = "ff_gmZ"
-### CM ENERGY RANGE
+### CM ENERGY RANGE (add as many or as little as you like)
 eCM_ranges = [
     (20, 80, 5),
     (80, 87, 1),
@@ -17,6 +22,10 @@ eCM_ranges = [
     (95, 100, 1),
     (100, 240, 5),
 ]
+#################################################################
+################ OPTIONS FOR GENERATING .cmnd FILES #############
+#################################################################
+### MAIN OPTIONS:
 ### NUMBER OF EVENTS
 Nevents = "5000"
 ### BEAM SETTINGS
@@ -25,11 +34,13 @@ idB = "-11"
 ### PROCESS in PYTHIA8 FORMAT
 options = []
 options.append("")
+### HARD PROCESS:
 options.append("! Hard Process")
 options.append("WeakSingleBoson:ffbar2gmZ = on")
 
+### OPTIONAL SETTINGS
 # Weak gmZ Mode
-options.append("WeakZ0:gmZmode = 0 ! choose gamma*/Z0")
+options.append("WeakZ0:gmZmode = 1 ! choose gamma*")
 
 ### PARTON LEVEL
 options.append("")
@@ -50,41 +61,47 @@ options.append("23:onMode = off")
 options.append("23:onIfAll = 11 -11")
 options.append("")
 
-# Create the output directory if it doesn't exist
+### CREATE DIRECTORY
 output_dir = f"{name}"
 os.makedirs(output_dir, exist_ok=True)
 
-# Loop over the ranges in eCM_ranges and generate .cmnd files for each energy range
+#### LOOP OVER eCM RANGES
 for eCM_range in eCM_ranges:
     eCM_begin, eCM_end, eCM_step = eCM_range
     
-    # Start from eCM_begin and loop until eCM_end with the specified step
+    ### WRITE THE .cmnd FILES
     eCM = eCM_begin
     while eCM <= eCM_end:
-        # Create the .cmnd file for each energy value
+        ### CREATE THE .cmnd FILE
         cmnd_file = os.path.join(output_dir, f"{eCM:.1f}.cmnd")  # Format to 1 decimal place
         
         with open(cmnd_file, "w") as file:
-            # Write the common settings to the file
+            ### WRITE THE HEADER
             file.write(f"! Number of events to generate\n")
             file.write(f"Main:numberOfEvents = {Nevents}\n\n")
             
-            # Beam settings with the current eCM
+            ### WRITE THE BEAM SETTINGS
             file.write(f"! BEAM SETTINGS\n")
             file.write(f"Beams:idA = {idA}\n")
             file.write(f"Beams:idB = {idB}\n")
-            file.write(f"Beams:eCM = {eCM:.1f}\n\n")  # Format to 1 decimal place
+            file.write(f"Beams:eCM = {eCM:.1f}\n\n")
             
-            # Write the process-specific settings
+            ### WRITE THE OPTION ONE BY ONE
             for option in options:
                 file.write(option + "\n")
         
-        # Increment eCM by the step value (float step is supported here)
+        ### INCREMENT THE eCM
         eCM += eCM_step
 
 
 print("All .cmnd files have been generated successfully!")
 
+
+#################################################################
+############################ MAKEFILE ###########################
+#################################################################
+### THIS PART WILL CREATE A MAKEFILE TO COMPILE THE .cc FILE
+### MANUALLY CHANGE TO YOUR PYTHIA8 INSTALLATION PATH 
 file_Makefile = f'''
 # MAKEFILE TO COMPILE PYTHIA8
 %: %.cc
@@ -94,11 +111,22 @@ file_Makefile = f'''
 clean:
 	rm -f $(basename $(wildcard *.cc))
 '''
+### WRITE THE MAKEFILE
 file_path_Makefile = os.path.join(name, "Makefile")
 with open(file_path_Makefile, "w") as out_Makefile:
     out_Makefile.write(file_Makefile)
 
+#################################################################
+######################### PYTHIA8 .cc FILE ######################
+#################################################################
+### THIS PART WILL CREATE A .cc FILE TO EXTRACT THE CROSS SECTION
+### NO OPTIONS FOR THIS PART -- YOU CAN CHANGE MANUALLY
 file_cc = f"""
+##############################################################
+###### MACRO .cc FILE TO GENERATE AND EXTRACT CROSSX #########
+##############################################################
+##################### AUTHOR: Paul Trofin ####################
+##############################################################
 #include "Pythia8/Pythia.h"
 #include <iostream>
 #include <dirent.h>
@@ -182,17 +210,23 @@ int main() {{
 """
 
 
-# Write the .cc file to the same directory
+### WRITE THE .cc FILE
 file_path_cc = os.path.join(name, f"{name}.cc")
 with open(file_path_cc, "w") as out_cc:
     out_cc.write(file_cc)
 
 print(f"Generated: {file_path_cc}")
 
-# Write ROOT macro for plotting cross section
+##############################################################
+###### MACRO .cc FILE TO GENERATE AND EXTRACT CROSSX #########
+##############################################################
+### NO OPTIONS HERE -- CHANGE MANUALLY
 file_plot_macro = f"""
 ////////////////////////////////////////////////////////////////////////
-////////////// TAKES AS INPUT CROSSX .dat FILES ////////////////////////
+///////////////// TAKES AS INPUT CROSSX .dat FILES /////////////////////
+///////////////// GENERATES <file_name>_crossx.png /////////////////////
+////////////////////////////////////////////////////////////////////////
+//////////////////////// AUTHOR: Paul Trofin ///////////////////////////
 ////////////////////////////////////////////////////////////////////////
 // RUN LIKE THIS:
 // root -l plot_crossx.C'("{name}_crossx.dat")'
@@ -236,6 +270,7 @@ void plot_crossx(std::string inputFile) {{
     c1->SaveAs("{name}_crossx.png");
 }}"""
 
+### WRITE THE PLOT .C FILE
 file_path_plot = os.path.join(name, "plot_crossx.C")
 with open(file_path_plot, "w") as out_plot:
     out_plot.write(file_plot_macro)
