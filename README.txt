@@ -22,7 +22,7 @@ ________________________________________________________________________
   ***  Generates  a folder  with the desired name  in which the following
        will be generated:
     -> ".cmnd"   files  in  the  desired  center  of  mass  energy range; 
-    -> A ".cc" to compile and run Pythia8 which then writes a ".dat" file
+    -> A ".cc" to compile and run Pythia8 which then writes a ".txt" file
        containing Cross Section (fb) vs Center of Mass Energy (GeV);
     -> Generates a  ROOT ".C"  to plot the cross section  (y-axis) vs. the
        center of mass energy (x-axis);
