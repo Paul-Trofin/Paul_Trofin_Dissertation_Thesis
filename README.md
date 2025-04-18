@@ -1,15 +1,14 @@
-************************** TO BE UPDATED !!! *****************************
-__________________________________________________________________________
-|                                                                        |
-|               Macro Files Generators & Other Scripts                   |           
+************************** TO BE UPDATED !!! ***************************
+________________________________________________________________________                                                              
+*****************  Macro Files Generators & Other Scripts ***************
 
-|                        Author: Paul Trofin                             |
-|________________________________________________________________________|
+*************************  Author: Paul Trofin **************************                             
+_________________________________________________________________________
 
-All  of  the  scripts  presented  here are used for my dissertation thesis
+All  of  the  scripts presented  here are used for my dissertation thesis
 "Z Boson Production ...". 
 
-This   GitHub   Repository  contains  multiple  folders.  Each  folder  is
+This  GitHub  Repository  contains  multiple  folders.  Each  folder  is
 dedicated to one type of generator:
 
 ________________________________________________________________________
