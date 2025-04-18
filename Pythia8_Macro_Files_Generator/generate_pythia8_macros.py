@@ -15,10 +15,12 @@ import os
 ######################## OPTIONS #############################
 ##############################################################
 ### NAME OF THE DIRECTORY FILE TO BE GENERATED
-name = "ff_gmZ"
+### (and the .cc and .C files)
+name = "ff_gm"
 ### CM ENERGY RANGE
 eCM_ranges = [
-    (20, 240, 5), # start_eCM[0], end_eCM[0], step size (could be float, max 1 decimal)
+    (20, 240, 5), # start_eCM[0], end_eCM[0], step size (could be float
+                                           #, max 1 decimal)
     # add as many or as little as you like 
 
 ]
@@ -73,7 +75,8 @@ for eCM_range in eCM_ranges:
     eCM = eCM_begin
     while eCM <= eCM_end:
         ### CREATE THE .cmnd FILE
-        cmnd_file = os.path.join(output_dir, f"{eCM:.1f}.cmnd")  # Format to 1 decimal place
+        cmnd_file = os.path.join(output_dir, f"{eCM:.1f}.cmnd") 
+                                    # Format to 1 decimal place
         
         with open(cmnd_file, "w") as file:
             ### WRITE THE HEADER
@@ -95,6 +98,11 @@ for eCM_range in eCM_ranges:
 
 
 print("All .cmnd files have been generated successfully!")
+
+
+#################################################################
+######### END OF OPTIONS PART. CHANGE MANUALLY FROM HERE. #######
+#################################################################
 
 
 #################################################################
@@ -120,24 +128,26 @@ with open(file_path_Makefile, "w") as out_Makefile:
 ######################### PYTHIA8 .cc FILE ######################
 #################################################################
 ### THIS PART WILL CREATE A .cc FILE TO EXTRACT THE CROSS SECTION
+### FROM THE .cmnd FILES and WRITE THEM TO A .dat FILE
 ### NO OPTIONS FOR THIS PART -- YOU CAN CHANGE MANUALLY
 file_cc = f"""
-##############################################################
-###### MACRO .cc FILE TO GENERATE AND EXTRACT CROSSX #########
-##############################################################
-##################### AUTHOR: Paul Trofin ####################
-##############################################################
+//////////////////////////////////////////////////////////////
+////// MACRO .cc FILE TO GENERATE AND EXTRACT CROSSX /////////
+//////////////////////////////////////////////////////////////
+///////////////////// AUTHOR: Paul Trofin ////////////////////
+//////////////////////////////////////////////////////////////
 #include "Pythia8/Pythia.h"
 #include <iostream>
 #include <dirent.h>
 #include <string>
 #include <fstream>
 #include <map>
-#include <iomanip>  // for setprecision
+#include <iomanip>
 
 using namespace Pythia8;
 using namespace std;
 
+// READ .cmnd FILES FROM WORKING DIRECTORY
 void readCmndFiles(vector<string>& cmndFiles) {{
     DIR* dir = opendir(".");
     if (dir) {{
@@ -150,10 +160,11 @@ void readCmndFiles(vector<string>& cmndFiles) {{
         }}
         closedir(dir);
     }} else {{
-        cerr << "Error opening directory." << endl;
+        cerr << "Error opening working directory." << endl;
     }}
 }}
 
+// EXTRACT CM ENERGY FROM .cmnd FILENAMES
 double extractCMEnergy(const string& filename) {{
     size_t pos = filename.find(".cmnd");
     if (pos != string::npos) {{
@@ -218,9 +229,11 @@ with open(file_path_cc, "w") as out_cc:
 print(f"Generated: {file_path_cc}")
 
 ##############################################################
-###### MACRO .cc FILE TO GENERATE AND EXTRACT CROSSX #########
+######## ROOT .C FILE TO PLOT CROSSX FROM .DAT FILE ##########
 ##############################################################
 ### NO OPTIONS HERE -- CHANGE MANUALLY
+### Dissertation plots have been generated with this .C script
+### modified to include legend and other functions 
 file_plot_macro = f"""
 ////////////////////////////////////////////////////////////////////////
 ///////////////// TAKES AS INPUT CROSSX .dat FILES /////////////////////
@@ -228,6 +241,8 @@ file_plot_macro = f"""
 ////////////////////////////////////////////////////////////////////////
 //////////////////////// AUTHOR: Paul Trofin ///////////////////////////
 ////////////////////////////////////////////////////////////////////////
+// Dissertation plots have been generated with this .C script
+// modified to include legend and other functions
 // RUN LIKE THIS:
 // root -l plot_crossx.C'("{name}_crossx.dat")'
 void plot_crossx(std::string inputFile) {{
