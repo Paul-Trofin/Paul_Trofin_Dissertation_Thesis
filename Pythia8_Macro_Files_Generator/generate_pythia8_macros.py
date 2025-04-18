@@ -58,7 +58,7 @@ options.append("HadronLevel:Hadronize = on")
 
 ### DECAY OPTIONS
 options.append("")
-options.append("! Force Z decays to e-e+")
+options.append("! Force gamma*/Z decays to e-e+")
 options.append("23:onMode = off")
 options.append("23:onIfAll = 11 -11")
 options.append("")
