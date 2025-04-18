@@ -280,7 +280,7 @@ void plot_crossx(std::string inputFile) {{
 
     auto c1 = new TCanvas("c1", "Cross Section Plot", 800, 600);
     c1->SetGrid();
-    graph->Draw("APL");
+    graph->Draw("AP");
 
     c1->SaveAs("{name}_crossx.png");
 }}"""
