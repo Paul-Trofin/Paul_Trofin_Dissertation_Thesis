@@ -128,7 +128,7 @@ with open(file_path_Makefile, "w") as out_Makefile:
 ######################### PYTHIA8 .cc FILE ######################
 #################################################################
 ### THIS PART WILL CREATE A .cc FILE TO EXTRACT THE CROSS SECTION
-### FROM THE .cmnd FILES and WRITE THEM TO A .dat FILE
+### FROM THE .cmnd FILES and WRITE THEM TO A .txt FILE
 ### NO OPTIONS FOR THIS PART -- YOU CAN CHANGE MANUALLY
 file_cc = f"""
 //////////////////////////////////////////////////////////////
@@ -208,7 +208,7 @@ int main() {{
         crossSections[cmEnergy] = totalCrossSection * 1e12;  // Convert to fb
     }}
 
-    ofstream outFile("{name}_crossx.dat");
+    ofstream outFile("{name}_crossx.txt");
     outFile << fixed << setprecision(1);
     outFile << "eCM (GeV)\\t\\tCrossX (fb)" << endl;
     for (const auto& entry : crossSections) {{
@@ -229,14 +229,14 @@ with open(file_path_cc, "w") as out_cc:
 print(f"Generated: {file_path_cc}")
 
 ##############################################################
-######## ROOT .C FILE TO PLOT CROSSX FROM .DAT FILE ##########
+######## ROOT .C FILE TO PLOT CROSSX FROM .TXT FILE ##########
 ##############################################################
 ### NO OPTIONS HERE -- CHANGE MANUALLY
 ### Dissertation plots have been generated with this .C script
 ### modified to include legend and other functions 
 file_plot_macro = f"""
 ////////////////////////////////////////////////////////////////////////
-///////////////// TAKES AS INPUT CROSSX .dat FILES /////////////////////
+///////////////// TAKES AS INPUT CROSSX .txt FILES /////////////////////
 ///////////////// GENERATES <file_name>_crossx.png /////////////////////
 ////////////////////////////////////////////////////////////////////////
 //////////////////////// AUTHOR: Paul Trofin ///////////////////////////
@@ -244,7 +244,7 @@ file_plot_macro = f"""
 // Dissertation plots have been generated with this .C script
 // modified to include legend and other functions
 // RUN LIKE THIS:
-// root -l plot_crossx.C'("{name}_crossx.dat")'
+// root -l plot_crossx.C'("{name}_crossx.txt")'
 void plot_crossx(std::string inputFile) {{
     std::ifstream infile(inputFile);
     if (!infile.is_open()) {{
