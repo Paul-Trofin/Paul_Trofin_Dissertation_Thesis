@@ -15,21 +15,29 @@ import os
 ######################## OPTIONS #############################
 ##############################################################
 ### NAME OF THE DIRECTORY FILE TO BE GENERATED
-### (and the .cc and .C files)
-name = "ff_gm"
-### CM ENERGY RANGE
+### (.cmnd file will have the name: <eCM>.cmnd)
+### (.cc file will have the name: <name>.cc)
+### (.txt file will have the name: <name>_crossx.txt)
+### (.png file will have the name: <name>_crossx.png)
+name = "Z_tata"
 eCM_ranges = [
-    (20, 240, 5), # start_eCM[0], end_eCM[0], step size (could be float
-                                           #, max 1 decimal)
-    # add as many or as little as you like 
-
+    (20, 60, 5),         
+    (60, 85, 2),         
+    (85, 88, 0.5),       
+    (88, 90.5, 0.2),     
+    (90.5, 91.5, 0.1),   
+    (91.5, 93, 0.2),     
+    (93, 96, 0.5),       
+    (96, 110, 2),        
+    (110, 240, 5)        
 ]
+
 #################################################################
 ################ OPTIONS FOR GENERATING .cmnd FILES #############
 #################################################################
 ### MAIN OPTIONS:
 ### NUMBER OF EVENTS
-Nevents = "5000"
+Nevents = "250"
 ### BEAM SETTINGS
 idA = "11"
 idB = "-11"
@@ -42,7 +50,7 @@ options.append("WeakSingleBoson:ffbar2gmZ = on")
 
 ### OPTIONAL SETTINGS
 # Weak gmZ Mode
-options.append("WeakZ0:gmZmode = 1 ! choose gamma*")
+options.append("WeakZ0:gmZmode = 2 ! choose Z")
 
 ### PARTON LEVEL
 options.append("")
@@ -58,10 +66,21 @@ options.append("HadronLevel:Hadronize = on")
 
 ### DECAY OPTIONS
 options.append("")
-options.append("! Force gamma*/Z decays to e-e+")
+options.append("! Force gamma*/Z decays to ta-ta+")
 options.append("23:onMode = off")
-options.append("23:onIfAll = 11 -11")
+options.append("23:onIfAll = 15 -15")
 options.append("")
+options.append("")
+options.append("! Force ta-ta+ decays to e-e+")
+options.append("15:onMode = off")
+options.append("-15:onMode = off")
+options.append("15:onIfAny = 11")
+options.append("-15:onIfAny = -11")
+options.append("")
+
+#################################################################
+######### END OF OPTIONS PART. CHANGE MANUALLY FROM HERE. #######
+#################################################################
 
 ### CREATE DIRECTORY
 output_dir = f"{name}"
@@ -96,14 +115,26 @@ for eCM_range in eCM_ranges:
         ### INCREMENT THE eCM
         eCM += eCM_step
 
-
-print("All .cmnd files have been generated successfully!")
-
-
-#################################################################
-######### END OF OPTIONS PART. CHANGE MANUALLY FROM HERE. #######
-#################################################################
-
+print(" ______________________________________________________________")
+print("                                                               ")
+print("                _________________________________              ")
+print("               |                                 |             ")
+print("               |  Pythia8 Macro Files Generator  |             ")
+print("               |_________________________________|             ")
+print("                                                               ")
+print("                                                               ")
+print("                     Author : Paul Trofin                      ")
+print("_______________________________________________________________")
+print("                                                               ")
+print(f"*** The folder {name} has been generated.")
+print("*** Inside are the following:")
+print("    -> All input .cmnd files in the desired interval ranges.")
+print("    -> Makefile (please change to your Pythia8 lib & include)")
+print("    -> .cc file for running Pythia8")
+print("    -> ROOT .C file to plot Crossx vs. eCM")
+print("                                                               ")
+print(f"*** Please refer to the README in this directory for more information.")
+print("_______________________________________________________________")
 
 #################################################################
 ############################ MAKEFILE ###########################
@@ -112,6 +143,7 @@ print("All .cmnd files have been generated successfully!")
 ### MANUALLY CHANGE TO YOUR PYTHIA8 INSTALLATION PATH 
 file_Makefile = f'''
 # MAKEFILE TO COMPILE PYTHIA8
+# Please change to your include and lib Pythia8 locations
 %: %.cc
 	g++ -I/home/paul/pythia/pythia8310/include `root-config --cflags` $< -o $@ -L/home/paul/pythia/pythia8310/lib `root-config --glibs` -lpythia8
 
@@ -147,7 +179,7 @@ file_cc = f"""
 using namespace Pythia8;
 using namespace std;
 
-// READ .cmnd FILES FROM WORKING DIRECTORY
+// FUNCTION TO READ .cmnd FILES FROM WORKING DIRECTORY
 void readCmndFiles(vector<string>& cmndFiles) {{
     DIR* dir = opendir(".");
     if (dir) {{
@@ -164,7 +196,7 @@ void readCmndFiles(vector<string>& cmndFiles) {{
     }}
 }}
 
-// EXTRACT CM ENERGY FROM .cmnd FILENAMES
+// FUNCTION TO EXTRACT CM ENERGY FROM .cmnd FILENAMES
 double extractCMEnergy(const string& filename) {{
     size_t pos = filename.find(".cmnd");
     if (pos != string::npos) {{
@@ -191,7 +223,7 @@ int main() {{
     map<double, double> crossSections;
 
     for (const auto& cmndFile : cmndFiles) {{
-        cout << "Processing file: " << cmndFile << endl;
+        cerr << "Processing file: " << cmndFile << endl;
 
         pythia.readFile(cmndFile);
         int nEvents = pythia.mode("Main:numberOfEvents");
@@ -215,6 +247,7 @@ int main() {{
         outFile << entry.first << "\\t\\t\\t" << entry.second << endl;
     }}
     outFile.close();
+    cerr << "Cross section data written to {name}_crossx.txt" << endl;
 
     return 0;
 }}
@@ -225,8 +258,6 @@ int main() {{
 file_path_cc = os.path.join(name, f"{name}.cc")
 with open(file_path_cc, "w") as out_cc:
     out_cc.write(file_cc)
-
-print(f"Generated: {file_path_cc}")
 
 ##############################################################
 ######## ROOT .C FILE TO PLOT CROSSX FROM .TXT FILE ##########
@@ -289,5 +320,3 @@ void plot_crossx(std::string inputFile) {{
 file_path_plot = os.path.join(name, "plot_crossx.C")
 with open(file_path_plot, "w") as out_plot:
     out_plot.write(file_plot_macro)
-
-print(f"Generated: plot_crossx.C")
