@@ -54,7 +54,7 @@ ________________________________________________________________
       (!!! TO BE UPDATED !!!) 
 	  
   *** The default example is e- e+ -> Z (s-channel) -> e- e+ with
-      50k events and the center of mass energy range 20 - 240 GeV
+      5k events and the center of mass energy range 20 - 240 GeV
 ________________________________________________________________
 
   *** Customize the script for any process:
