@@ -21,8 +21,8 @@ import os
 ### (.png file will have the name: <name>_crossx.png)
 name = "ee_Z_ee"
 eCM_ranges = [
-	# for each interval:
-	# start eCM, end eCM, step size
+    # for each interval:
+    # start eCM, end eCM, step size
     (20, 60, 5),         
     (60, 85, 2),         
     (85, 88, 0.5),       
