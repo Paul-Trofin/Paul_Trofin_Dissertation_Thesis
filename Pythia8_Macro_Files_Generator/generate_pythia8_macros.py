@@ -41,7 +41,7 @@ eCM_ranges = [
 #################################################################
 ### MAIN OPTIONS:
 ### NUMBER OF EVENTS
-Nevents = "50000"
+Nevents = "5000"
 ### BEAM SETTINGS
 idA = "11"
 idB = "-11"
