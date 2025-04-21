@@ -19,8 +19,10 @@ import os
 ### (.cc file will have the name: <name>.cc)
 ### (.txt file will have the name: <name>_crossx.txt)
 ### (.png file will have the name: <name>_crossx.png)
-name = "Z_tata"
+name = "ee_Z_ee"
 eCM_ranges = [
+	# for each interval:
+	# start eCM, end eCM, step size
     (20, 60, 5),         
     (60, 85, 2),         
     (85, 88, 0.5),       
@@ -29,7 +31,9 @@ eCM_ranges = [
     (91.5, 93, 0.2),     
     (93, 96, 0.5),       
     (96, 110, 2),        
-    (110, 240, 5)        
+    (110, 240, 5)
+    # Add or substract as many as you like
+    # Min step size: 0.1 GeV        
 ]
 
 #################################################################
@@ -37,7 +41,7 @@ eCM_ranges = [
 #################################################################
 ### MAIN OPTIONS:
 ### NUMBER OF EVENTS
-Nevents = "250"
+Nevents = "50000"
 ### BEAM SETTINGS
 idA = "11"
 idB = "-11"
@@ -66,17 +70,9 @@ options.append("HadronLevel:Hadronize = on")
 
 ### DECAY OPTIONS
 options.append("")
-options.append("! Force gamma*/Z decays to ta-ta+")
+options.append("! Force gamma*/Z decays to e- e+")
 options.append("23:onMode = off")
-options.append("23:onIfAll = 15 -15")
-options.append("")
-options.append("")
-options.append("! Force ta-ta+ decays to e-e+")
-options.append("15:onMode = off")
-options.append("-15:onMode = off")
-options.append("15:onIfAny = 11")
-options.append("-15:onIfAny = -11")
-options.append("")
+options.append("23:onIfAll = 11 -11")
 
 #################################################################
 ######### END OF OPTIONS PART. CHANGE MANUALLY FROM HERE. #######
@@ -168,6 +164,9 @@ file_cc = f"""
 //////////////////////////////////////////////////////////////
 ///////////////////// AUTHOR: Paul Trofin ////////////////////
 //////////////////////////////////////////////////////////////
+// RUN LIKE THIS:
+// make {name}
+// ./{name} > {name}.log
 #include "Pythia8/Pythia.h"
 #include <iostream>
 #include <dirent.h>
@@ -221,9 +220,13 @@ int main() {{
     readCmndFiles(cmndFiles);
 
     map<double, double> crossSections;
-
+	
+	int cmnds_done = 0;
     for (const auto& cmndFile : cmndFiles) {{
         cerr << "Processing file: " << cmndFile << endl;
+        cmnds_done ++;
+        cerr << "Remaining .cmnd files: " << cmndFiles.size() - cmnds_done;
+        cerr << endl << endl;
 
         pythia.readFile(cmndFile);
         int nEvents = pythia.mode("Main:numberOfEvents");
