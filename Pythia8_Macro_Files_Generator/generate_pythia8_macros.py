@@ -14,11 +14,12 @@ import os
 ##############################################################
 ######################## OPTIONS #############################
 ##############################################################
-### NAME OF THE DIRECTORY FILE TO BE GENERATED
+### CREATE DIRECTORY WITH THE FOLLWOING FILES:
 ### (.cmnd file will have the name: <eCM>.cmnd)
 ### (.cc file will have the name: <name>.cc)
 ### (.txt file will have the name: <name>_crossx.txt)
 ### (.png file will have the name: <name>_crossx.png)
+### NAME OF THE DIRECTORY TO BE GENERATED
 name = "ee_Z_ee"
 eCM_ranges = [
     # for each interval:
@@ -45,7 +46,7 @@ Nevents = "5000"
 ### BEAM SETTINGS
 idA = "11"
 idB = "-11"
-### PROCESS in PYTHIA8 FORMAT
+### APPEND OPTIONS in PYTHIA8 FORMAT
 options = []
 options.append("")
 ### HARD PROCESS:
@@ -70,7 +71,7 @@ options.append("HadronLevel:Hadronize = on")
 
 ### DECAY OPTIONS
 options.append("")
-options.append("! Force gamma*/Z decays to e- e+")
+options.append("! Force Z decays to e- e+")
 options.append("23:onMode = off")
 options.append("23:onIfAll = 11 -11")
 
