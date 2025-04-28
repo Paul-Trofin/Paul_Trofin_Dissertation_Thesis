@@ -140,6 +140,7 @@ print("_______________________________________________________________")
 file_Makefile = f'''
 # MAKEFILE TO COMPILE PYTHIA8
 # Assumes PYTHIA8, PYTHIA8_INCLUDE, and PYTHIA8_LIBRARY are set in the environment.
+# Please ensure you have set up Pythia8 paths correctly to .bashrc
 
 # Variables (use environment variables)
 PYTHIA8_INCLUDE_PATH ?= $(PYTHIA8_INCLUDE)
