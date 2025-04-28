@@ -30,7 +30,7 @@ __________________________________________________________________
        vs. the center of mass energy (x-axis);
        
   ***  RUN LIKE THIS:
-       -> python3 generate_pythia8_macros
+       -> python3 generate_pythia8_macros.py
   ***  For more information on how  to use it please refer to
        the README in the dedicated folder:
        "Pythia8_Macro_Files_Generator"
