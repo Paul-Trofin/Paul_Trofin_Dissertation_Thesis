@@ -112,6 +112,38 @@ for eCM_range in eCM_ranges:
         ### INCREMENT THE eCM
         eCM += eCM_step
 
+
+
+#################################################################
+############################ MAKEFILE ###########################
+#################################################################
+### THIS PART WILL CREATE A MAKEFILE TO COMPILE THE .cc FILE
+file_Makefile = f'''
+# MAKEFILE TO COMPILE PYTHIA8
+# Assumes these are exported to PATH, such that they are set in the environment:
+# export PYTHIA8=<Pythia8_installation_directory>
+# export PATH=$PATH:$PYTHIA8/bin
+# export PYTHIA8_INCLUDE=$PYTHIA8/include
+# export PYTHIA8_LIBRARY=$PYTHIA8/lib/libpythia8.so
+# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PYTHIA8/lib
+
+# Variables (use environment variables)
+PYTHIA8_INCLUDE_PATH ?= $(PYTHIA8_INCLUDE)
+PYTHIA8_LIB_PATH ?= $(dir $(PYTHIA8_LIBRARY))
+
+%: %.cc
+	g++ -I$(PYTHIA8_INCLUDE_PATH) `root-config --cflags` $< -o $@ -L$(PYTHIA8_LIB_PATH) `root-config --glibs` -lpythia8
+
+# make clean
+clean:
+	rm -f $(basename $(wildcard *.cc))
+
+'''
+### WRITE THE MAKEFILE
+file_path_Makefile = os.path.join(name, "Makefile")
+with open(file_path_Makefile, "w") as out_Makefile:
+    out_Makefile.write(file_Makefile)
+
 print(" ______________________________________________________________")
 print("                                                               ")
 print("                _________________________________              ")
@@ -132,32 +164,6 @@ print("    -> ROOT .C file to plot Crossx vs. eCM")
 print("                                                               ")
 print(f"*** Please refer to the README in this directory for more information.")
 print("_______________________________________________________________")
-
-#################################################################
-############################ MAKEFILE ###########################
-#################################################################
-### THIS PART WILL CREATE A MAKEFILE TO COMPILE THE .cc FILE
-file_Makefile = f'''
-# MAKEFILE TO COMPILE PYTHIA8
-# Assumes PYTHIA8, PYTHIA8_INCLUDE, and PYTHIA8_LIBRARY are set in the environment.
-# Please ensure you have set up Pythia8 paths correctly to .bashrc
-
-# Variables (use environment variables)
-PYTHIA8_INCLUDE_PATH ?= $(PYTHIA8_INCLUDE)
-PYTHIA8_LIB_PATH ?= $(dir $(PYTHIA8_LIBRARY))
-
-%: %.cc
-	g++ -I$(PYTHIA8_INCLUDE_PATH) `root-config --cflags` $< -o $@ -L$(PYTHIA8_LIB_PATH) `root-config --glibs` -lpythia8
-
-# make clean
-clean:
-	rm -f $(basename $(wildcard *.cc))
-
-'''
-### WRITE THE MAKEFILE
-file_path_Makefile = os.path.join(name, "Makefile")
-with open(file_path_Makefile, "w") as out_Makefile:
-    out_Makefile.write(file_Makefile)
 
 #################################################################
 ######################### PYTHIA8 .cc FILE ######################
