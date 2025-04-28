@@ -137,16 +137,21 @@ print("_______________________________________________________________")
 ############################ MAKEFILE ###########################
 #################################################################
 ### THIS PART WILL CREATE A MAKEFILE TO COMPILE THE .cc FILE
-### MANUALLY CHANGE TO YOUR PYTHIA8 INSTALLATION PATH 
 file_Makefile = f'''
 # MAKEFILE TO COMPILE PYTHIA8
-# Please change to your include and lib Pythia8 locations
+# Assumes PYTHIA8, PYTHIA8_INCLUDE, and PYTHIA8_LIBRARY are set in the environment.
+
+# Variables (use environment variables)
+PYTHIA8_INCLUDE_PATH ?= $(PYTHIA8_INCLUDE)
+PYTHIA8_LIB_PATH ?= $(dir $(PYTHIA8_LIBRARY))
+
 %: %.cc
-	g++ -I/home/paul/pythia/pythia8310/include `root-config --cflags` $< -o $@ -L/home/paul/pythia/pythia8310/lib `root-config --glibs` -lpythia8
+	g++ -I$(PYTHIA8_INCLUDE_PATH) `root-config --cflags` $< -o $@ -L$(PYTHIA8_LIB_PATH) `root-config --glibs` -lpythia8
 
 # make clean
 clean:
 	rm -f $(basename $(wildcard *.cc))
+
 '''
 ### WRITE THE MAKEFILE
 file_path_Makefile = os.path.join(name, "Makefile")
