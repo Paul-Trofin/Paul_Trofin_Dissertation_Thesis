@@ -66,7 +66,7 @@ options.append("23:onIfAll = 11 -11")
 ######### END OF OPTIONS PART. CHANGE MANUALLY FROM HERE. #######
 #################################################################
 info_1 = "Colliding: " + "(" + idA + ")" + " + " + "(" + idB + ")" + " at " + eCM + " GeV"
-info_2 = "Collider Card: " + card.removesuffix(".tcl")
+info_2 = "Collider Card: " + card
 info_3 = "Hard Process: " + hard_process
 
 print(" ______________________________________________________________")
