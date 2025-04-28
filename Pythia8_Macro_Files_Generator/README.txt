@@ -49,9 +49,8 @@ ________________________________________________________________
   	  
       -> root -l plot_crossx.C'("ee_Z_ee_crossx.txt")' (plot)
   
-  *** Please do not forget to change the Makefile to include
-      the proper Pythia8 installation folder of your system.
-      (!!! TO BE UPDATED !!!) 
+  *** Please ensure that $PYTHIA8/bin, $PYTHIA8/include,
+      $PYTHIA8/lib are exported to PATH in .bashrc
 	  
   *** The default example is e- e+ -> Z (s-channel) -> e- e+ with
       5k events and the center of mass energy range 20 - 240 GeV
