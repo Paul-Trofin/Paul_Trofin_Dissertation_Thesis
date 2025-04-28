@@ -105,7 +105,7 @@ with open(file_path, "w") as file:
     file.write("\n")
     file.write(f"!!! Default card is ATLAS, change if you want.\n\n")
     file.write("!!! RUN LIKE THIS (from delphes installtion directory):\n")
-    file.write(f"!!! ./DelphesPythia8 cards/delphes_card_ATLAS.tcl {abs_file_path} {abs_root_path} > {abs_log_path}\n")
+    file.write(f"!!! ./DelphesPythia8 cards/{card} {abs_file_path} {abs_root_path} > {abs_log_path}\n")
     file.write("\n\n")
 
     file.write("! Number of events to generate\n")
