@@ -50,12 +50,12 @@ ________________________________________________________________
       -> root -l plot_crossx.C'("ee_Z_ee_crossx.txt")' (plot)
   
   *** Please ensure that $PYTHIA8/bin, $PYTHIA8/include,
-      $PYTHIA8/lib are exported to PATH in .bashrc
+      $PYTHIA8/lib and $PYTHIA8/lib/libpythia8.so are 
+      properly exported to be environment variables.
 	  
   *** The default example is e- e+ -> Z (s-channel) -> e- e+ with
       5k events and the center of mass energy range 20 - 240 GeV
 ________________________________________________________________
-
   *** Customize the script for any process:
   
       -> You may generate whatever .cmnd files you desire to
