@@ -51,7 +51,12 @@ ________________________________________________________________
   
   *** Please ensure that $PYTHIA8/bin, $PYTHIA8/include,
       $PYTHIA8/lib and $PYTHIA8/lib/libpythia8.so are 
-      properly exported to be environment variables.
+      properly exported to the environment. Check out the Makefile 
+      for this, you can modify it if needed in the python file
+      "generate_pythia8_macros.py" (or directly). Once you have
+      set up the Makefile in the python generator it will auto-
+      matically create the right Makefile for each new folder
+      created.
 	  
   *** The default example is e- e+ -> Z (s-channel) -> e- e+ with
       5k events and the center of mass energy range 20 - 240 GeV
