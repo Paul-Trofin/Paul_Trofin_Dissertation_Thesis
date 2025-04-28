@@ -120,6 +120,7 @@ for eCM_range in eCM_ranges:
 ### THIS PART WILL CREATE A MAKEFILE TO COMPILE THE .cc FILE
 file_Makefile = f'''
 # MAKEFILE TO COMPILE PYTHIA8
+
 # Assumes these are exported to PATH, such that they are set in the environment:
 # export PYTHIA8=<Pythia8_installation_directory>
 # export PATH=$PATH:$PYTHIA8/bin
@@ -127,9 +128,13 @@ file_Makefile = f'''
 # export PYTHIA8_LIBRARY=$PYTHIA8/lib/libpythia8.so
 # export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PYTHIA8/lib
 
-# Variables (use environment variables)
+# You may have other names for $PYTHIA8/include & $PYTHIA8/lib/libpythia8.so
+# or other, just change it down here:
+# Searches for Pythia8 environment
 PYTHIA8_INCLUDE_PATH ?= $(PYTHIA8_INCLUDE)
+#                           ^ Change to your actual PYTHIA8/include name or give full path
 PYTHIA8_LIB_PATH ?= $(dir $(PYTHIA8_LIBRARY))
+#                           ^ Change to your actual PYTHIA8/lib/libpythia8.so or give full path
 
 %: %.cc
 	g++ -I$(PYTHIA8_INCLUDE_PATH) `root-config --cflags` $< -o $@ -L$(PYTHIA8_LIB_PATH) `root-config --glibs` -lpythia8
