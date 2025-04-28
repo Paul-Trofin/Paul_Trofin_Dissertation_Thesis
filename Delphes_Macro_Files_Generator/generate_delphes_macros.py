@@ -20,7 +20,9 @@ import os
 name = "ff_Z_ee"
 ### PROCESS NAME (matters only for printing)
 hard_process = "Hard Process: f f~ -> Z (s-channel) -> e- e+"
-
+### DELPHES CARD (give full name of the .tcl card in <delphes_installation_folder>/cards/):
+### Default card is ATLAS
+card = "delphes_card_ATLAS.tcl"
 #################################################################
 ################ OPTIONS FOR GENERATING .cmnd FILES #############
 #################################################################
@@ -63,7 +65,9 @@ options.append("23:onIfAll = 11 -11")
 #################################################################
 ######### END OF OPTIONS PART. CHANGE MANUALLY FROM HERE. #######
 #################################################################
-banner_info = "Colliding: " + "(" + idA + ")" + " + " + "(" + idB + ")" + " at " + eCM + " GeV" 
+info_1 = "Colliding: " + "(" + idA + ")" + " + " + "(" + idB + ")" + " at " + eCM + " GeV"
+info_2 = "Collider Card: " + card.substr(0, card.find(".tcl"))
+info_3 = "Hard Process: " + hard_process
 
 print(" ______________________________________________________________")
 print("                                                               ")
@@ -75,9 +79,11 @@ print("                                                               ")
 print("                     Author : Paul Trofin                      ")
 print(" ______________________________________________________________")
 print("                                                               ")
-print(banner_info.center(66))
+print(info_1.center(66))
 print("                                                              ")
-print(hard_process.center(66))
+print(info_2.center(66))
+print("                                                              ")
+print(info_3.center(66))
 print(" ______________________________________________________________")
 
 ### CREATE FOLDER
