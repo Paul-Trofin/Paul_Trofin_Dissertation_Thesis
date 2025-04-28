@@ -68,6 +68,7 @@ ________________________________________________________________
 
      *** Change main options:
          -> name (name of the directory to be generated)
+	 -> card (choose one from <delphes_install_folder>/cards)
          -> hard_process (matters only for printing)
          -> Nevents (number of events)
          -> Beam settings (idA, idB, eCM)
