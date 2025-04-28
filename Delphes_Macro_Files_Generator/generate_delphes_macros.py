@@ -18,8 +18,8 @@ import os
 ### analysis file .C file will be created with the name "get_variables.C"
 ### NAME OF THE DIRECTORY TO BE GENERATED
 name = "ff_Z_ee"
-### PROCESS NAME (matters only for printing)
-hard_process = "Hard Process: f f~ -> Z (s-channel) -> e- e+"
+### HARD PROCESS NAME (matters only for printing)
+hard_process = "f f~ -> Z (s-channel) -> e- e+"
 ### DELPHES CARD (give full name of the .tcl card in <delphes_installation_folder>/cards/):
 ### Default card is ATLAS
 card = "delphes_card_ATLAS.tcl"
@@ -66,7 +66,7 @@ options.append("23:onIfAll = 11 -11")
 ######### END OF OPTIONS PART. CHANGE MANUALLY FROM HERE. #######
 #################################################################
 info_1 = "Colliding: " + "(" + idA + ")" + " + " + "(" + idB + ")" + " at " + eCM + " GeV"
-info_2 = "Collider Card: " + card.substr(0, card.find(".tcl"))
+info_2 = "Collider Card: " + card.removesuffix(".tcl")
 info_3 = "Hard Process: " + hard_process
 
 print(" ______________________________________________________________")
