@@ -48,7 +48,10 @@ ________________________________________________________________
          ee_Z_ee_crossx.txt should appear)
   	  
       -> root -l plot_crossx.C'("ee_Z_ee_crossx.txt")' (plot)
-  
+
+  *** The easiest method to compile is to copy your own Pythia8 
+      Makefile into the newly created folder "ee_Z_ee".\
+
   *** Please ensure that $PYTHIA8/bin, $PYTHIA8/include,
       $PYTHIA8/lib and $PYTHIA8/lib/libpythia8.so are 
       properly exported to the environment. Check out the Makefile 
@@ -56,7 +59,7 @@ ________________________________________________________________
       "generate_pythia8_macros.py" (or directly). Once you have
       set up the Makefile in the python generator it will auto-
       matically create the right Makefile for each new folder
-      created.
+      created. Or just copy your own Makefile in the folder.
 	  
   *** The default example is e- e+ -> Z (s-channel) -> e- e+ with
       5k events and the center of mass energy range 20 - 240 GeV
@@ -84,7 +87,11 @@ ________________________________________________________________
          in this list:
            -> necessary : hard processes
            -> optional  : parton, hadron, decay Pythia8 settings.
-  	  
+
+  *** To better automate the compilation process, just copy the
+      contents of your own Pythia8 file into the file_Makefile
+      string inside ''' <contents> '''. Lines in code: 117 - 146.
+
   *** The option part is ready. You can change manually from
       here if you want some things different like the maximum
       precision used (1 decimal in eCM) or the cross section to
